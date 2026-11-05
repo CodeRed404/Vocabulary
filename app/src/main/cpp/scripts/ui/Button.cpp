@@ -1,0 +1,136 @@
+//
+// Created by codered404 on 02.11.26.
+//
+
+#include "Button.h"
+
+Button::Button(Text text, ButtonColor buttonColor, Vector2 size, Vector2 position) {
+    Button::text = text;
+    Button::buttonColor = buttonColor;
+    Button::size = size;
+    Button::position = position;
+    Button::curr_position = position;
+
+    Button::text.SetColor(buttonColor.text_color_released);
+    Button::curr_color_fill = buttonColor.color_released_fill;
+    Button::curr_color_outline = buttonColor.color_released_outline;
+
+    Button::inHitbox = false;
+    Button::inHitboxFromBeginning = false;
+    Button::isPressed = false;
+
+    Button::isHoverSoundPlayed = false;
+
+    ValuesChanged();
+}
+
+Button::Button(Text text, ButtonColor buttonColor) : Button(text, buttonColor, {300, 300}, {(float)GetScreenWidth() / 2.0f - 150.0f, (float)GetScreenHeight() / 2.0f - 150.0f}) {}
+
+Button::Button() : Button(Text(), ButtonColor{WHITE, WHITE, BLACK, BLACK, WHITE, WHITE}) {}
+
+
+void Button::Update(const float &delta) {
+    float touchX = (float)GetTouchX();
+    float touchY = (float)GetTouchY();
+
+    if (Global::pressedTimer > 0.0f) {
+        if (touchX > position.x && touchX < position.x + size.x && touchY > position.y && touchY < position.y + size.y) {
+            inHitbox = true;
+
+            if (!isHoverSoundPlayed) {
+                PlaySound(*AssetManager::GetSound(AssetManager::SOUND::SOUND_BUTTON_HOVER));
+                isHoverSoundPlayed = true;
+            }
+        }
+        else {
+            inHitbox = false;
+            isHoverSoundPlayed = false;
+        }
+
+        if (inHitbox) {
+            if (Global::pressedTimer == delta) {
+                inHitboxFromBeginning = true;
+            }
+            SetPressedColors();
+        } else {
+            SetReleasedColors();
+        }
+    }
+
+    if (Global::pressedTimer == 0.0f) {
+        if (inHitboxFromBeginning && inHitbox) {
+            isPressed = true;
+        }
+        SetReleasedColors();
+        inHitboxFromBeginning = false;
+        isHoverSoundPlayed = false;
+    }
+
+    //text.SetText(std::to_string(Global::pressedTimer));
+}
+
+void Button::Draw() {
+    DrawRectangleRounded({position.x, position.y, size.x, size.y}, 0.25f, 0, curr_color_fill);
+    DrawRectangleRoundedLinesEx({position.x, position.y, size.x, size.y}, 0.25f, 0, 8.0f, curr_color_outline);
+    text.Draw();
+}
+
+
+void Button::CenterX() {
+    position.x = (float)GetScreenWidth() / 2.0f - size.x / 2.0f;
+    ValuesChanged();
+}
+
+void Button::CenterY() {
+    position.y = (float)GetScreenHeight() / 2.0f - size.y / 2.0f;
+    ValuesChanged();
+}
+
+// Getters & Setters
+bool Button::IsPressed() {
+    if (isPressed) {
+        isPressed = false;
+        PlaySound(*AssetManager::GetSound(AssetManager::SOUND::SOUND_BUTTON_PRESS));
+        return true;
+    }
+    return false;
+}
+
+void Button::SetSize(Vector2 size) {
+    Button::size = size;
+    ValuesChanged();
+}
+
+void Button::SetPosition(Vector2 position) {
+    Button::position = position;
+    ValuesChanged();
+}
+
+Vector2 Button::GetSize() {
+    return size;
+}
+
+Vector2 Button::GetPosition() {
+    return position;
+}
+
+
+
+void Button::ValuesChanged() {
+    Button::text.SetPosition({
+        Button::position.x + Button::size.x / 2.0f - Button::text.GetSize().x / 2.0f,
+        Button::position.y + Button::size.y / 2.0f - Button::text.GetSize().y / 2.0f
+    });
+}
+
+void Button::SetPressedColors() {
+    text.SetColor(buttonColor.text_color_pressed);
+    curr_color_fill = buttonColor.color_pressed_fill;
+    curr_color_outline = buttonColor.color_pressed_outline;
+}
+
+void Button::SetReleasedColors() {
+    text.SetColor(buttonColor.text_color_released);
+    curr_color_fill = buttonColor.color_released_fill;
+    curr_color_outline = buttonColor.color_released_outline;
+}

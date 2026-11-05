@@ -1,0 +1,3 @@
+- Hoover (Header-Font) - Copyright © 2026 Indian Type Foundry. All rights reserved. (ITF Free Font License (FFL) Version 2.0 - 17 Aug 2026) - https://www.fontshare.com
+
+- Karma (Default-Font) - Copyright © 2026 Indian Type Foundry (SIL OPEN FONT LICENSE Version 1.1) - https://github.com/itfoundry/karma
