@@ -22,6 +22,7 @@ Menu::Menu() {
         screenWidth / 2.0f - heading->GetSize().x / 2.0f,
         200
     });
+    heading->SetPosition({0, 0});
 
     developer_credit = std::make_unique<Text>(
         "developed by CodeRed404",
@@ -72,7 +73,7 @@ Menu::Menu() {
 
 void Menu::Update(const float &delta) {
     UpdateUI(delta);
-    //heading->SetText(Global::text); // nur fuer testen
+    heading->SetText(Global::text); // nur fuer testen
 }
 
 void Menu::UpdateUI(const float &delta) {

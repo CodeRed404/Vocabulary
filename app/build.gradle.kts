@@ -44,6 +44,11 @@ android {
     buildFeatures {
         viewBinding = true
     }
+
+    // me
+    buildFeatures {
+        prefab = true
+    }
 }
 
 dependencies {

@@ -11,11 +11,11 @@
 
 class Global {
     public:
-        static void LoadTemplates();
-
         inline static bool exitProgram = false;         // in need of improvement
         inline static float pressedTimer = 0.0f;        // in need of improvement !
         inline static std::string text = "1";
+    private:
+        Global() {}
 };
 
 #endif //VOCABULARY_GLOBAL_H

@@ -12,7 +12,6 @@ add_subdirectory(raylib)
 
 add_library(${CMAKE_PROJECT_NAME} SHARED
         native-lib.cpp
-        scripts/Global.cpp
         scripts/Manager.cpp
         scripts/AssetManager.cpp
         #scenes
@@ -23,6 +22,8 @@ add_library(${CMAKE_PROJECT_NAME} SHARED
         scripts/scenes/TrainMenu.cpp
         scripts/scenes/TemplatesMenu.cpp
         scripts/scenes/VocabsMenu.cpp
+        #vocabs
+        scripts/vocabs/Templates.cpp
         #ui
         scripts/ui/Text.cpp
         scripts/ui/Button.cpp
@@ -39,6 +40,10 @@ target_link_libraries(${CMAKE_PROJECT_NAME}
         GLESv2
         OpenSLES
         z
+
+        # --- HIER NEU HINZUGEFÜGT FÜR CURL ---
+        curl
+        m
 )
 
 target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
@@ -46,5 +51,10 @@ target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
         raylib/src/external
 
         # my
-        include
+        cpp_libs/include
 )
+
+# --- HIER NEU HINZUGEFÜGT: Pfad zur libcurl.a für Android ---
+add_library(curl STATIC IMPORTED)
+set_target_properties(curl PROPERTIES IMPORTED_LOCATION
+        ${CMAKE_CURRENT_SOURCE_DIR}/cpp_libs/libs/${ANDROID_ABI}/libcurl.a)

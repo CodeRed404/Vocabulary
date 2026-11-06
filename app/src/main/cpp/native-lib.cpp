@@ -2,7 +2,9 @@
 #include "scripts/Global.h"
 #include "scripts/Manager.h"
 #include "scripts/AssetManager.h"
-//#include "scripts/scenes/SceneManager.h"
+#include "scripts/vocabs/Templates.h"
+#include "curl/curl.h"
+#include "thread"
 #include <jni.h>
 
 extern "C"
@@ -19,17 +21,22 @@ int main() {
     InitWindow(0, 0, "Vocabulary");
     SetTargetFPS(60);
     InitAudioDevice();
-
     SetExitKey(KEY_NULL);
 
-    AssetManager::LoadAssets();
+    //unsigned int dataSize = 0;
+    //unsigned char *fileData = LoadFileData("", &dataSize);
+
+    curl_global_init(CURL_GLOBAL_DEFAULT);
+
+    std::thread nwThread(Templates::LoadTemplates);
+    nwThread.detach();
 
     SceneManager::Init();
+    AssetManager::LoadAssets();
 
     float delta;
 
     while (!Global::exitProgram) {
-        Global::LoadTemplates();
         delta = GetFrameTime();
 
         if (GetTouchPointCount() > 0) {
@@ -56,6 +63,8 @@ int main() {
     Global::exitProgram = false;
 
     AssetManager::UnloadAssets();
+
+    curl_global_cleanup();
 
     CloseAudioDevice();
     CloseWindow();
