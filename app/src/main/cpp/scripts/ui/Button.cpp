@@ -4,12 +4,16 @@
 
 #include "Button.h"
 
-Button::Button(Text text, ButtonColor buttonColor, Vector2 size, Vector2 position) {
+Button::Button(Text text, ButtonColor buttonColor, Vector2 size, Vector2 position, float roundness, bool locked) {
     Button::text = text;
     Button::buttonColor = buttonColor;
     Button::size = size;
     Button::position = position;
     Button::curr_position = position;
+    Button::roundness = roundness;
+    Button::locked = locked;
+
+    Button::alpha = 255;
 
     Button::text.SetColor(buttonColor.text_color_released);
     Button::curr_color_fill = buttonColor.color_released_fill;
@@ -23,6 +27,10 @@ Button::Button(Text text, ButtonColor buttonColor, Vector2 size, Vector2 positio
 
     ValuesChanged();
 }
+
+Button::Button(Text text, ButtonColor buttonColor, Vector2 size, Vector2 position, float roundness) : Button(text, buttonColor, size, position, roundness, false) {}
+
+Button::Button(Text text, ButtonColor buttonColor, Vector2 size, Vector2 position) : Button(text, buttonColor, size, position, 0.25f) {}
 
 Button::Button(Text text, ButtonColor buttonColor) : Button(text, buttonColor, {300, 300}, {(float)GetScreenWidth() / 2.0f - 150.0f, (float)GetScreenHeight() / 2.0f - 150.0f}) {}
 
@@ -70,9 +78,9 @@ void Button::Update(const float &delta) {
 }
 
 void Button::Draw() {
-    DrawRectangleRounded({position.x, position.y, size.x, size.y}, 0.25f, 0, curr_color_fill);
-    DrawRectangleRoundedLinesEx({position.x, position.y, size.x, size.y}, 0.25f, 0, 8.0f, curr_color_outline);
-    text.Draw();
+    DrawRectangleRounded({position.x, position.y, size.x, size.y}, roundness, 0, Color{curr_color_fill.r, curr_color_fill.g, curr_color_fill.b, alpha});
+    DrawRectangleRoundedLinesEx({position.x, position.y, size.x, size.y}, roundness, 0, 8.0f, Color{curr_color_outline.r, curr_color_outline.g, curr_color_outline.b, alpha});
+    text.DrawMango();
 }
 
 
@@ -104,6 +112,10 @@ void Button::SetSize(Vector2 size) {
 void Button::SetPosition(Vector2 position) {
     Button::position = position;
     ValuesChanged();
+}
+
+void Button::SetAlpha(uint8_t alpha) {
+    Button::alpha = alpha;
 }
 
 Vector2 Button::GetSize() {

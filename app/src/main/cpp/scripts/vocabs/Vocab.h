@@ -8,7 +8,7 @@
 #include "string"
 
 struct Vocab {
-    unsigned long id;
+    int id;
     std::string en;
     std::string de;
 };

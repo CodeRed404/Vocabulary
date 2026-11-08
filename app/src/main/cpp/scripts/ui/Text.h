@@ -16,6 +16,7 @@ class Text {
 
         void Update(const float& delta);
         void Draw();
+        void DrawMango();
 
         Vector2 GetSize();
         Vector2 GetPosition();

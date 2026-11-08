@@ -69,7 +69,7 @@ void Manager::Draw() {
 void Manager::DrawWarning() {
     if (warning_timer > 0 || warning_alpha > 0) {
         DrawRectangleRounded({warning_position.x, warning_position.y, warning_size.x, warning_size.y}, 0.5f, 0, ColorAlpha(warning_color, (float)warning_alpha / 255.0f));
-        DrawTextPro(*AssetManager::GetFont(AssetManager::FONT::FONT_DEFAULT), warning_text.c_str(), {warning_position.x + warning_size.x / 2.0f - warning_text_size.x / 2.0f, warning_position.y + warning_size.y / 2.0f - warning_text_size.y / 2.0f}, {0, 0}, 0, warning_text_fontSize, warning_text_spacing, ColorAlpha(BLACK, (float)warning_alpha / 255.0f));
+        DrawTextPro(*AssetManager::GetFont(AssetManager::FONT::FONT_DEFAULT_BOLD), warning_text.c_str(), {warning_position.x + warning_size.x / 2.0f - warning_text_size.x / 2.0f, warning_position.y + warning_size.y / 2.0f - warning_text_size.y / 2.0f}, {0, 0}, 0, warning_text_fontSize, warning_text_spacing, ColorAlpha(BLACK, (float)warning_alpha / 255.0f));
         DrawRectangleRoundedLinesEx({warning_position.x, warning_position.y, warning_size.x, warning_size.y}, 0.5f, 0, 8.0f, ColorAlpha(BLACK, (float)warning_alpha / 255.0f));
     }
 }
@@ -87,8 +87,15 @@ void Manager::Warning(std::string warning, float time, Color color) {
     warning_text = warning;
     warning_timer = time;
 
-    warning_text_size = MeasureTextEx(*AssetManager::GetFont(AssetManager::FONT::FONT_DEFAULT), warning_text.c_str(), warning_text_fontSize, warning_text_spacing);
+    warning_text_size = MeasureTextEx(*AssetManager::GetFont(AssetManager::FONT::FONT_DEFAULT_REGULAR), warning_text.c_str(), warning_text_fontSize, warning_text_spacing);
     warning_size = {warning_text_size.x + 200, warning_text_size.y + 45};
+
+    if (warning_size.x < 800) {
+        warning_size.x = 800;
+    }
+    if (warning_size.y < 150) {
+        warning_size.y = 150;
+    }
 
     warning_position = {(float)GetScreenWidth() / 2.0f - warning_size.x / 2.0f, -30};
 }

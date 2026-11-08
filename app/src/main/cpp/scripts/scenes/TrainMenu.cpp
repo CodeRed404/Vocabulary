@@ -32,7 +32,7 @@ TrainMenu::TrainMenu() : Scene() {
     float button_y_distance = 50;
 
     *button_templates_menu = Button(
-            Text("Templates", AssetManager::FONT::FONT_HEADER, 85, 3, WHITE),
+            Text("Templates", AssetManager::FONT::FONT_BUTTON, 85, 3, WHITE),
             Button::DefaultButtonColor,
             button_size,
             {0, 0.3f * (float)GetScreenHeight()}
@@ -41,7 +41,7 @@ TrainMenu::TrainMenu() : Scene() {
     button_templates_menu->CenterY();
 
     *button_userVocabs_menu = Button(
-            Text("myVocabs", AssetManager::FONT::FONT_HEADER, 85, 3, WHITE),
+            Text("myVocabs", AssetManager::FONT::FONT_BUTTON, 85, 3, WHITE),
             Button::DefaultButtonColor,
             button_size,
             {0, button_templates_menu->GetPosition().y + button_templates_menu->GetSize().y + button_y_distance}
@@ -49,7 +49,7 @@ TrainMenu::TrainMenu() : Scene() {
     button_userVocabs_menu->CenterX();
 
     *button_back = Button(
-            Text("<-", AssetManager::FONT::FONT_HEADER, 85, 3, RED),
+            Text("Back", AssetManager::FONT::FONT_BUTTON, 85, 3, RED),
             Button::ButtonColor{
                 Color{186, 31, 51, 255},
                 Color{205, 93, 103, 255},
@@ -88,7 +88,7 @@ void TrainMenu::Draw() {
 }
 
 void TrainMenu::DrawUI() {
-    heading->Draw();
+    heading->DrawMango();
 
     button_templates_menu->Draw();
     button_userVocabs_menu->Draw();

@@ -30,7 +30,7 @@ VocabsMenu::VocabsMenu(VocabsMenu::VOCABS_MENU_MODE mode) {
     button_back = std::make_unique<Button>();
 
     *button_back = Button(
-            Text("<-", AssetManager::FONT::FONT_HEADER, 85, 3, RED),
+            Text("Back", AssetManager::FONT::FONT_BUTTON, 85, 3, RED),
             Button::ButtonColor{
                     Color{186, 31, 51, 255},
                     Color{205, 93, 103, 255},
@@ -63,7 +63,7 @@ void VocabsMenu::Draw() {
 }
 
 void VocabsMenu::DrawUI() {
-    heading->Draw();
+    heading->DrawMango();
 
     button_back->Draw();
 }

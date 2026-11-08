@@ -3,6 +3,7 @@
 //
 
 #include "Text.h"
+#include "../Global.h"
 
 // Constructors
 
@@ -16,7 +17,7 @@ Text::Text(std::string text, AssetManager::FONT font, float fontSize, float spac
     ValuesChanged();
 }
 
-Text::Text() : Text("placeholder", AssetManager::FONT::FONT_DEFAULT, 50.0f, 10.0f, RED) {
+Text::Text() : Text("placeholder", AssetManager::FONT::FONT_DEFAULT_REGULAR, 50.0f, 10.0f, RED) {
 
 }
 
@@ -28,6 +29,12 @@ void Text::Update(const float &delta) {
 
 void Text::Draw() {
     DrawTextPro(*AssetManager::GetFont(font), text.c_str(), position, Vector2{0, 0}, 0.0f, fontSize, spacing, color);
+}
+
+void Text::DrawMango() {
+    DrawTextPro(*AssetManager::GetFont(AssetManager::FONT::FONT_MANGO_FILL), text.c_str(), position, Vector2{0, 0}, 0.0f, fontSize, spacing, color);
+    DrawTextPro(*AssetManager::GetFont(AssetManager::FONT::FONT_MANGO_SCRIBBLE), text.c_str(), position, Vector2{0, 0}, 0.0f, fontSize, spacing, Global::MakeColorLighter(color, 0.25f));
+    DrawTextPro(*AssetManager::GetFont(AssetManager::FONT::FONT_MANGO_RG), text.c_str(), position, Vector2{0, 0}, 0.0f, fontSize, spacing, Global::MakeColorDarker(color, 0.25f));
 }
 
 // Getters & Setters {

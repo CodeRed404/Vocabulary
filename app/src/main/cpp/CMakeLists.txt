@@ -24,6 +24,7 @@ add_library(${CMAKE_PROJECT_NAME} SHARED
         scripts/scenes/VocabsMenu.cpp
         #vocabs
         scripts/vocabs/Templates.cpp
+        scripts/vocabs/TrainScene.cpp
         #ui
         scripts/ui/Text.cpp
         scripts/ui/Button.cpp

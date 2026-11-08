@@ -20,6 +20,8 @@ class Button  {
             Color color_pressed_outline;
         };
     public:
+        Button(Text text, ButtonColor buttonColor, Vector2 size, Vector2 position, float roundness, bool locked);
+        Button(Text text, ButtonColor buttonColor, Vector2 size, Vector2 position, float roundness);
         Button(Text text, ButtonColor buttonColor, Vector2 size, Vector2 position);
         Button(Text text, ButtonColor buttonColor);
         Button();
@@ -33,6 +35,7 @@ class Button  {
         bool IsPressed();
         void SetSize(Vector2 size);
         void SetPosition(Vector2 position);
+        void SetAlpha(uint8_t alpha);
         Vector2 GetSize();
         Vector2 GetPosition();
 
@@ -50,6 +53,10 @@ class Button  {
         Vector2 position;
         Vector2 curr_position;
         ButtonColor buttonColor;
+        float roundness;
+        bool locked;
+
+        uint8_t alpha;
 
         Color curr_color_fill;
         Color curr_color_outline;

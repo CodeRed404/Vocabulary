@@ -22,7 +22,6 @@ Menu::Menu() {
         screenWidth / 2.0f - heading->GetSize().x / 2.0f,
         200
     });
-    heading->SetPosition({0, 0});
 
     developer_credit = std::make_unique<Text>(
         "developed by CodeRed404",
@@ -46,7 +45,7 @@ Menu::Menu() {
     float button_y_distance = 50;
 
     *button_train = Button(
-        Text("Train", AssetManager::FONT::FONT_HEADER, 85, 3, WHITE),
+        Text("Train", AssetManager::FONT::FONT_BUTTON, 85, 3, WHITE),
         Button::DefaultButtonColor,
         {800, 150},
         {0, 0.3f * (float)GetScreenHeight()}
@@ -55,7 +54,7 @@ Menu::Menu() {
     button_train->CenterY();
 
     *button_vocabs = Button(
-            Text("Vocabs", AssetManager::FONT::FONT_HEADER, 85, 3, WHITE),
+            Text("Vocabs", AssetManager::FONT::FONT_BUTTON, 85, 3, WHITE),
             Button::DefaultButtonColor,
             {800, 150},
             {0, button_train->GetPosition().y + button_train->GetSize().y + button_y_distance}
@@ -63,7 +62,7 @@ Menu::Menu() {
     button_vocabs->CenterX();
 
     *button_quit = Button(
-            Text("QUIT", AssetManager::FONT::FONT_HEADER, 85, 3, RED),
+            Text("QUIT", AssetManager::FONT::FONT_BUTTON, 85, 3, RED),
             Button::DefaultButtonColor,
             {800, 150},
             {0, button_vocabs->GetPosition().y + button_vocabs->GetSize().y + button_y_distance}
@@ -73,7 +72,6 @@ Menu::Menu() {
 
 void Menu::Update(const float &delta) {
     UpdateUI(delta);
-    heading->SetText(Global::text); // nur fuer testen
 }
 
 void Menu::UpdateUI(const float &delta) {
@@ -101,7 +99,7 @@ void Menu::Draw() {
 }
 
 void Menu::DrawUI() {
-    heading->Draw();
+    heading->DrawMango();
     developer_credit->Draw();
 
     button_train->Draw();

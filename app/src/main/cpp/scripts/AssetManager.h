@@ -12,7 +12,12 @@ class AssetManager {
     public:
         enum FONT {
             FONT_HEADER,
-            FONT_DEFAULT
+            FONT_DEFAULT_REGULAR,
+            FONT_DEFAULT_BOLD,
+            FONT_BUTTON,
+            FONT_MANGO_FILL,
+            FONT_MANGO_RG,
+            FONT_MANGO_SCRIBBLE
         };
 
         enum SOUND {
@@ -31,7 +36,11 @@ class AssetManager {
         // Paths {
         // Fonts
         static std::string path_font_header;
-        static std::string path_font_default;
+        static std::string path_font_default_regular;
+        static std::string path_font_default_bold;
+        static std::string path_font_mango_fill;
+        static std::string path_font_mango_rg;
+        static std::string path_font_mango_scribble;
 
         // Audio
         // Sounds
@@ -45,7 +54,11 @@ class AssetManager {
 
         // Fonts
         static Font font_header;
-        static Font font_default;
+        static Font font_default_regular;
+        static Font font_default_bold;
+        static Font font_mango_fill;
+        static Font font_mango_rg;
+        static Font font_mango_scribble;
 
         // Audio
         // Sounds

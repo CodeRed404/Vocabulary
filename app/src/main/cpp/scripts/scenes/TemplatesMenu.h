@@ -20,6 +20,7 @@ class TemplatesMenu : public Scene {
     private:
         std::unique_ptr<Text> heading;
 
+        std::vector<std::unique_ptr<Button>> template_buttons;
         std::unique_ptr<Button> button_back;
 
         void UpdateUI(const float& delta);

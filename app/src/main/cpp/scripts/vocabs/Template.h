@@ -9,7 +9,8 @@
 #include "vector"
 
 struct Template {
-    unsigned long id;
+    int id;
+    std::string name;
     std::vector<Vocab> vocabs;
 };
 
