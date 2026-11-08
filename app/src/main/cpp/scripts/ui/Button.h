@@ -32,6 +32,8 @@ class Button  {
         void CenterX();
         void CenterY();
 
+        void Mute();
+
         bool IsPressed();
         void SetSize(Vector2 size);
         void SetPosition(Vector2 position);
@@ -39,7 +41,7 @@ class Button  {
         Vector2 GetSize();
         Vector2 GetPosition();
 
-        inline static const ButtonColor DefaultButtonColor = ButtonColor{
+        inline static const ButtonColor DefaultButtonColor = ButtonColor{ // need improvemant (no inline)
                 Color{53, 79, 82, 255},
                 Color{82, 121, 111, 255},
                 Color{82, 121, 111, 255},
@@ -55,6 +57,9 @@ class Button  {
         ButtonColor buttonColor;
         float roundness;
         bool locked;
+
+        bool mute;
+        bool mango;
 
         uint8_t alpha;
 

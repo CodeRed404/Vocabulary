@@ -19,8 +19,29 @@ class TrainScene : public Scene {
 
         bool help_info = false;
 
+        // train
+        Vocab currVocab;
+        Text currVocabIDText;
+        Text currVocabText;
+        float defaultVocabFontSize;
+        Text tapText;
+        uint8_t tapAlpha;
+        bool tapUp;
+        // card
+        bool currWordIsEN;
+        Vector2 cardSize;
+        Rectangle cardRect;
+        std::unique_ptr<Button> cardButton; // invisible (only for IsPressed() - (can be improved))
+        // not in the card
+        std::unique_ptr<Button> button_random;
+        std::unique_ptr<Button> button_previous;
+        std::unique_ptr<Button> button_next;
+        std::unique_ptr<Button> button_first;
+
         std::unique_ptr<Button> button_list_vocabs;
         std::unique_ptr<Button> button_back;
+
+        void UpdateCard(const float& delta);
 };
 
 

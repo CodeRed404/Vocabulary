@@ -14,12 +14,14 @@ class Text {
         Text(std::string text, AssetManager::FONT font, float fontSize, float spacing, Color color);
         Text();
 
-        void Update(const float& delta);
         void Draw();
         void DrawMango();
 
         Vector2 GetSize();
+        Vector2 GetSizeMango();
         Vector2 GetPosition();
+        float GetFontSize();
+        Color GetColor();
         void SetText(std::string text);
         void SetFont(AssetManager::FONT font);
         void SetFontSize(float fontSize);
@@ -33,6 +35,7 @@ class Text {
         float spacing;
         Color color;
         Vector2 size;
+        Vector2 sizeMango;
         Vector2 position;
 
         void ValuesChanged();

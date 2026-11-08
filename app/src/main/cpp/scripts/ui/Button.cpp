@@ -13,6 +13,9 @@ Button::Button(Text text, ButtonColor buttonColor, Vector2 size, Vector2 positio
     Button::roundness = roundness;
     Button::locked = locked;
 
+    Button::mute = false;
+    Button::mango = true;
+
     Button::alpha = 255;
 
     Button::text.SetColor(buttonColor.text_color_released);
@@ -45,9 +48,11 @@ void Button::Update(const float &delta) {
         if (touchX > position.x && touchX < position.x + size.x && touchY > position.y && touchY < position.y + size.y) {
             inHitbox = true;
 
-            if (!isHoverSoundPlayed) {
-                PlaySound(*AssetManager::GetSound(AssetManager::SOUND::SOUND_BUTTON_HOVER));
-                isHoverSoundPlayed = true;
+            if (!mute) {
+                if (!isHoverSoundPlayed) {
+                    PlaySound(*AssetManager::GetSound(AssetManager::SOUND::SOUND_BUTTON_HOVER));
+                    isHoverSoundPlayed = true;
+                }
             }
         }
         else {
@@ -73,14 +78,17 @@ void Button::Update(const float &delta) {
         inHitboxFromBeginning = false;
         isHoverSoundPlayed = false;
     }
-
-    //text.SetText(std::to_string(Global::pressedTimer));
 }
 
 void Button::Draw() {
     DrawRectangleRounded({position.x, position.y, size.x, size.y}, roundness, 0, Color{curr_color_fill.r, curr_color_fill.g, curr_color_fill.b, alpha});
     DrawRectangleRoundedLinesEx({position.x, position.y, size.x, size.y}, roundness, 0, 8.0f, Color{curr_color_outline.r, curr_color_outline.g, curr_color_outline.b, alpha});
-    text.DrawMango();
+
+    if (mango) {
+        text.DrawMango();
+    } else {
+        text.Draw();
+    }
 }
 
 
@@ -94,11 +102,16 @@ void Button::CenterY() {
     ValuesChanged();
 }
 
+void Button::Mute() {
+    mute = true;
+}
+
 // Getters & Setters
 bool Button::IsPressed() {
     if (isPressed) {
         isPressed = false;
-        PlaySound(*AssetManager::GetSound(AssetManager::SOUND::SOUND_BUTTON_PRESS));
+        if(!mute)
+            PlaySound(*AssetManager::GetSound(AssetManager::SOUND::SOUND_BUTTON_PRESS));
         return true;
     }
     return false;
@@ -130,8 +143,8 @@ Vector2 Button::GetPosition() {
 
 void Button::ValuesChanged() {
     Button::text.SetPosition({
-        Button::position.x + Button::size.x / 2.0f - Button::text.GetSize().x / 2.0f,
-        Button::position.y + Button::size.y / 2.0f - Button::text.GetSize().y / 2.0f
+        Button::position.x + Button::size.x / 2.0f - (mango ? Button::text.GetSizeMango().x : Button::text.GetSize().x) / 2.0f,
+        Button::position.y + Button::size.y / 2.0f - (mango ? Button::text.GetSizeMango().y : Button::text.GetSize().y) / 2.0f
     });
 }
 

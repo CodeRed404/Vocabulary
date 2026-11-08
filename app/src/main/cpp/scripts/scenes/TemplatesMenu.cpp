@@ -86,6 +86,7 @@ void TemplatesMenu::UpdateUI(const float &delta) {
 
     if (button_back->IsPressed()) {
         SceneManager::PopScene();
+        return;
     }
 }
 

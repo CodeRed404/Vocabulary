@@ -23,10 +23,6 @@ Text::Text() : Text("placeholder", AssetManager::FONT::FONT_DEFAULT_REGULAR, 50.
 
 // Updates & Draws
 
-void Text::Update(const float &delta) {
-
-}
-
 void Text::Draw() {
     DrawTextPro(*AssetManager::GetFont(font), text.c_str(), position, Vector2{0, 0}, 0.0f, fontSize, spacing, color);
 }
@@ -42,8 +38,20 @@ Vector2 Text::GetSize() {
     return size;
 }
 
+Vector2 Text::GetSizeMango() {
+    return sizeMango;
+}
+
 Vector2 Text::GetPosition() {
     return position;
+}
+
+float Text::GetFontSize() {
+    return fontSize;
+}
+
+Color Text::GetColor() {
+    return color;
 }
 
 void Text::SetText(std::string text) {
@@ -77,4 +85,5 @@ void Text::SetPosition(Vector2 position) {
 
 void Text::ValuesChanged() {
     size = MeasureTextEx(*AssetManager::GetFont(font), text.c_str(), fontSize, spacing);
+    sizeMango = MeasureTextEx(*AssetManager::GetFont(AssetManager::FONT_MANGO_RG), text.c_str(), fontSize, spacing);
 }

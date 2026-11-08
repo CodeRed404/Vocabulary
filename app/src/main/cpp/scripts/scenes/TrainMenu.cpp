@@ -80,6 +80,7 @@ void TrainMenu::UpdateUI(const float &delta) {
         SceneManager::AddScene(new VocabsMenu(VocabsMenu::VOCABS_MENU_MODE::VOCABS_MENU_TRAIN));
     } else if (button_back->IsPressed()) {
         SceneManager::PopScene();
+        return;
     }
 }
 

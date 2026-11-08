@@ -24,6 +24,7 @@ int main() {
     InitAudioDevice();
     SetExitKey(KEY_NULL);
 
+    srand((unsigned)time(0));
 
     /*
     // --- ZERTIFIKAT AUS DEN ASSETS EXTRAHIEREN ---
@@ -48,6 +49,9 @@ int main() {
 
     curl_global_init(CURL_GLOBAL_DEFAULT);
 
+    SceneManager::Init();
+    AssetManager::LoadAssets();
+
     std::thread nwThread(Templates::LoadTemplates);
     nwThread.detach();
 
@@ -67,10 +71,6 @@ int main() {
         }
     }
     UnloadTexture(loadingCircle);
-
-
-    SceneManager::Init();
-    AssetManager::LoadAssets();
 
     float delta;
 

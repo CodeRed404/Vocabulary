@@ -27,11 +27,17 @@ class AssetManager {
             SOUND_OPENING_END
         };
 
+        enum TEXTURE {
+            TEXTURE_ROBOT_0,
+            TEXTURE_ROBOT_1
+        };
+
         static void LoadAssets();
         static void UnloadAssets();
 
         static Font *GetFont(FONT font);
         static Sound *GetSound(SOUND sound);
+        static Texture2D *GetTexture(TEXTURE texture);
     private:
         // Paths {
         // Fonts
@@ -50,6 +56,11 @@ class AssetManager {
         // Opening
         static std::string path_sound_opening_start;
         static std::string path_sound_opening_end;
+
+        // Textures
+        // character
+        static std::string path_texture_robot_0;
+        static std::string path_texture_robot_1;
         // }
 
         // Fonts
@@ -68,6 +79,11 @@ class AssetManager {
         // Opening
         static Sound sound_opening_start;        // in need of improvement => unload if opening scene get deleted
         static Sound sound_opening_end;          // in need of improvement => unload if opening scene get deleted
+
+        // Textures
+        // Character
+        static Texture2D texture_robot_0;
+        static Texture2D texture_robot_1;
 };
 
 

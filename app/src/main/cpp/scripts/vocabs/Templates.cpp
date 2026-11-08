@@ -48,7 +48,7 @@ void Templates::LoadTemplates() {
 
         if (res != CURLE_OK) {
             // error while loading
-            Manager::Warning("loading error 404", 5, RED);
+            Manager::Warning("loading error 404", 3, RED);
         } else {
             // loaded successfully
 
@@ -74,7 +74,7 @@ void Templates::LoadTemplates() {
                 count++;
             }
 
-            Manager::Warning("Data loaded", 3, GREEN);
+            Manager::Warning("Data loaded", 2, GREEN);
         }
         curl_easy_cleanup(curl);
     }

@@ -22,6 +22,14 @@ class Menu : public Scene {
     private:
         bool want_to_quit;
 
+        bool robot_is_texture_0;
+        bool robot_goes_to_right;
+        float robot_texture_switch_timer;
+        float robot_texture_switch_time;
+        float robot_x_pos;
+        float robot_y_pos;
+        float robot_speed;
+
         std::unique_ptr<Text> heading;
         std::unique_ptr<Text> developer_credit;
 

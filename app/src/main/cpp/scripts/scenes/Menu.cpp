@@ -68,9 +68,37 @@ Menu::Menu() {
             {0, button_vocabs->GetPosition().y + button_vocabs->GetSize().y + button_y_distance}
     );
     button_quit->CenterX();
+
+    // robot
+    robot_is_texture_0 = true;
+    robot_goes_to_right = true;
+    robot_texture_switch_time = 0.1;
+    robot_texture_switch_timer = robot_texture_switch_time;
+    robot_x_pos = button_train->GetPosition().x;
+    robot_y_pos = button_train->GetPosition().y - AssetManager::GetTexture(AssetManager::TEXTURE::TEXTURE_ROBOT_0)->height;
+    robot_speed = 100;
 }
 
 void Menu::Update(const float &delta) {
+    // robot
+    robot_texture_switch_timer -= delta;
+    if (robot_texture_switch_timer <= 0) {
+        robot_is_texture_0 = !robot_is_texture_0;
+        robot_texture_switch_timer = robot_texture_switch_time;
+    }
+    if (robot_goes_to_right) {
+        robot_x_pos += robot_speed * delta;
+        if (robot_x_pos + AssetManager::GetTexture(AssetManager::TEXTURE::TEXTURE_ROBOT_0)->width >= button_train->GetPosition().x + button_train->GetSize().x) {
+            robot_goes_to_right = !robot_goes_to_right;
+        }
+    } else {
+        robot_x_pos -= robot_speed * delta;
+        if (robot_x_pos <= button_train->GetPosition().x) {
+            robot_goes_to_right = !robot_goes_to_right;
+        }
+    }
+
+
     UpdateUI(delta);
 }
 
@@ -96,6 +124,9 @@ void Menu::UpdateUI(const float &delta) {
 
 void Menu::Draw() {
     DrawUI();
+
+    Texture2D robot_txr = *AssetManager::GetTexture(robot_is_texture_0 ? AssetManager::TEXTURE::TEXTURE_ROBOT_0 : AssetManager::TEXTURE::TEXTURE_ROBOT_1);
+    DrawTextureRec(robot_txr, Rectangle{0, 0, (float)robot_txr.width * (robot_goes_to_right ? 1 : -1), (float)robot_txr.height}, Vector2{robot_x_pos, robot_y_pos}, WHITE);
 }
 
 void Menu::DrawUI() {

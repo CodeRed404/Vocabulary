@@ -42,6 +42,28 @@ void Manager::UpdateWarning(const float &delta) {
                 if (warning_alpha > 0) {
                     if (warning_alpha_timer <= 0) {
                         warning_alpha--;
+                        if (warning_alpha > 0) {
+                            warning_alpha--;
+                            if (warning_alpha > 0) {
+                                warning_alpha--;
+                                if (warning_alpha > 0) {
+                                    warning_alpha--;
+                                    if (warning_alpha > 0) {
+                                        warning_alpha--;
+                                        if (warning_alpha > 0) {
+                                            warning_alpha--;
+                                            if (warning_alpha > 0) {
+                                                warning_alpha--;
+                                                if (warning_alpha > 0) {
+                                                    warning_alpha--;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
                         warning_alpha_timer = WARNING_ALPHA_TIME;
                     }
                 }
@@ -50,8 +72,13 @@ void Manager::UpdateWarning(const float &delta) {
             if (warning_alpha < 255) {
                 warning_alpha++;
 
-                if (warning_alpha < 255) {
-                    warning_alpha++;
+                if (warning_alpha > 50) {
+                    if (warning_alpha < 255) {
+                        warning_alpha++;
+                        if (warning_alpha < 255) {
+                            warning_alpha++;
+                        }
+                    }
                 }
             } else {
                 warning_appeard = true;
@@ -87,7 +114,7 @@ void Manager::Warning(std::string warning, float time, Color color) {
     warning_text = warning;
     warning_timer = time;
 
-    warning_text_size = MeasureTextEx(*AssetManager::GetFont(AssetManager::FONT::FONT_DEFAULT_REGULAR), warning_text.c_str(), warning_text_fontSize, warning_text_spacing);
+    warning_text_size = MeasureTextEx(*AssetManager::GetFont(AssetManager::FONT::FONT_DEFAULT_BOLD), warning_text.c_str(), warning_text_fontSize, warning_text_spacing);
     warning_size = {warning_text_size.x + 200, warning_text_size.y + 45};
 
     if (warning_size.x < 800) {

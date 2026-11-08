@@ -15,6 +15,8 @@ std::string AssetManager::path_sound_button_hover = "audio/sounds/ui/button_hove
 std::string AssetManager::path_sound_button_click = "audio/sounds/ui/button_click.wav";
 std::string AssetManager::path_sound_opening_start = "audio/sounds/opening_start.wav";
 std::string AssetManager::path_sound_opening_end = "audio/sounds/opening_end.wav";
+std::string AssetManager::path_texture_robot_0 = "textures/robot/robot_0.png";
+std::string AssetManager::path_texture_robot_1 = "textures/robot/robot_1.png";
 
 Font AssetManager::font_header;
 Font AssetManager::font_default_regular;
@@ -26,6 +28,9 @@ Sound AssetManager::sound_button_hover;
 Sound AssetManager::sound_button_click;
 Sound AssetManager::sound_opening_start;
 Sound AssetManager::sound_opening_end;
+
+Texture2D AssetManager::texture_robot_0;
+Texture2D AssetManager::texture_robot_1;
 
 void AssetManager::LoadAssets() {
     // Fonts
@@ -59,6 +64,11 @@ void AssetManager::LoadAssets() {
     // Opening
     sound_opening_start = LoadSound(path_sound_opening_start.c_str());
     sound_opening_end = LoadSound(path_sound_opening_end.c_str());
+
+    // Textures
+    // Character
+    texture_robot_0 = LoadTexture(path_texture_robot_0.c_str());
+    texture_robot_1 = LoadTexture(path_texture_robot_1.c_str());
 }
 
 void AssetManager::UnloadAssets() {
@@ -78,6 +88,11 @@ void AssetManager::UnloadAssets() {
     // Opening
     UnloadSound(sound_opening_start);
     UnloadSound(sound_opening_end);
+
+    // Textures
+    // Robot
+    UnloadTexture(texture_robot_0);
+    UnloadTexture(texture_robot_1);
 }
 
 
@@ -112,5 +127,14 @@ Sound *AssetManager::GetSound(SOUND sound) {
             return &sound_opening_start;
         case SOUND::SOUND_OPENING_END:
             return &sound_opening_end;
+    }
+}
+
+Texture2D *AssetManager::GetTexture(TEXTURE texture) {
+    switch (texture) {
+        case TEXTURE::TEXTURE_ROBOT_0:
+            return &texture_robot_0;
+        case TEXTURE::TEXTURE_ROBOT_1:
+            return &texture_robot_1;
     }
 }
