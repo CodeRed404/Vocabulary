@@ -84,6 +84,7 @@ void Menu::Update(const float &delta) {
     robot_texture_switch_timer -= delta;
     if (robot_texture_switch_timer <= 0) {
         robot_is_texture_0 = !robot_is_texture_0;
+        robot_y_pos = button_train->GetPosition().y - AssetManager::GetTexture((robot_is_texture_0 ? AssetManager::TEXTURE::TEXTURE_ROBOT_0 : AssetManager::TEXTURE::TEXTURE_ROBOT_1))->height;
         robot_texture_switch_timer = robot_texture_switch_time;
     }
     if (robot_goes_to_right) {
