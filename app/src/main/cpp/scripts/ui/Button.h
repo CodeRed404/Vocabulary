@@ -41,14 +41,7 @@ class Button  {
         Vector2 GetSize();
         Vector2 GetPosition();
 
-        inline static const ButtonColor DefaultButtonColor = ButtonColor{ // need improvemant (no inline)
-                Color{53, 79, 82, 255},
-                Color{82, 121, 111, 255},
-                Color{82, 121, 111, 255},
-                Color{47, 62, 70, 255},
-                Color{47, 62, 70, 255},
-                Color{47, 62, 70, 255}
-        };
+        static const ButtonColor DefaultButtonColor;
     private:
         Text text;
         Vector2 size;

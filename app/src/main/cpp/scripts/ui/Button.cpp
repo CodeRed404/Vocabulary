@@ -4,6 +4,15 @@
 
 #include "Button.h"
 
+const Button::ButtonColor Button::DefaultButtonColor = Button::ButtonColor{
+        Color{53, 79, 82, 255},
+        Color{82, 121, 111, 255},
+        Color{82, 121, 111, 255},
+        Color{47, 62, 70, 255},
+        Color{47, 62, 70, 255},
+        Color{47, 62, 70, 255}
+};
+
 Button::Button(Text text, ButtonColor buttonColor, Vector2 size, Vector2 position, float roundness, bool locked) {
     Button::text = text;
     Button::buttonColor = buttonColor;

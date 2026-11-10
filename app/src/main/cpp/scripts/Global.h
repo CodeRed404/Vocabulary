@@ -11,8 +11,8 @@
 
 class Global {
     public:
-        inline static bool exitProgram = false;         // in need of improvement
-        inline static float pressedTimer = 0.0f;        // in need of improvement !
+        inline static bool exitProgram = false;
+        inline static float pressedTimer = 0.0f;
         inline static bool isLoading = true;
 
         static Color MakeColorDarker(const Color& color, const float& percentage) {

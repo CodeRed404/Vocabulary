@@ -19,6 +19,7 @@ TrainScene::TrainScene(Template *template_ptr) {
     cardSize = {1000, 1000};
     cardRect = {(float)GetScreenWidth() / 2.0f - cardSize.x / 2.0f, (float)GetScreenHeight() / 3.0f - cardSize.y / 2.0f, cardSize.x, cardSize.y};
     currWordIsEN = true;
+    EN_to_DE = true;
 
     cardButton = std::make_unique<Button>();
     *cardButton = Button(
@@ -72,6 +73,7 @@ TrainScene::TrainScene(Template *template_ptr) {
         cardRect.y + 50
     });
 
+    button_switchLanguage = std::make_unique<Button>();
     button_random = std::make_unique<Button>();
     button_previous = std::make_unique<Button>();
     button_next = std::make_unique<Button>();
@@ -127,6 +129,13 @@ TrainScene::TrainScene(Template *template_ptr) {
             confButtonColor,
             nextButtonSize,
             nextButtonPos,
+            0.2f
+    );
+    *button_switchLanguage = Button(
+            Text("Switch Language", AssetManager::FONT::FONT_DEFAULT_BOLD, 125, 3, RED),
+            confButtonColor,
+            {nextButtonSize.x / 2.0f - buttonHalfAndMore, nextButtonSize.y},
+            {button_random->GetPosition().x, button_random->GetPosition().y - nextButtonSize.y - buttonYDistance},
             0.2f
     );
 
@@ -195,6 +204,7 @@ void TrainScene::Update(const float &delta) {
 void TrainScene::UpdateCard(const float &delta) {
     cardButton->Update(delta);
     // --
+    button_switchLanguage->Update(delta);
     button_previous->Update(delta);
     button_first->Update(delta);
     button_random->Update(delta);
@@ -203,9 +213,15 @@ void TrainScene::UpdateCard(const float &delta) {
     if (!button_list_vocabs->IsPressed() && !button_back->IsPressed()) {
         bool any = false;
         if (cardButton->IsPressed() && !help_info) {
-            currVocabText.SetText(currWordIsEN ? currVocab.de : currVocab.en);
+            if (EN_to_DE) {
+                currVocabText.SetText(currWordIsEN ? currVocab.de : currVocab.en);
+            } else {
+                currVocabText.SetText(currWordIsEN ? currVocab.en : currVocab.de);
+            }
             currWordIsEN = !currWordIsEN;
             any = true;
+        } else if (button_switchLanguage->IsPressed()) {
+            EN_to_DE = !EN_to_DE;
         } else if (button_random->IsPressed()) {
             currVocab = template_ptr->vocabs[rand() % template_ptr->vocabs.size()];
             currWordIsEN = true;
@@ -290,7 +306,7 @@ void TrainScene::Draw() {
 
         Vector2 vocabPos = {panel_pos.x + 75, panel_pos.y + 150};
 
-        DrawTextPro(*AssetManager::GetFont(AssetManager::FONT::FONT_DEFAULT_BOLD), "ID: EN = DE", {vocabPos.x, vocabPos.y - 100}, {0, 0}, 0, 80, 5, GREEN);
+        DrawTextPro(*AssetManager::GetFont(AssetManager::FONT::FONT_DEFAULT_BOLD), (EN_to_DE ? "ID: EN = DE" : "ID: DE = EN"), {vocabPos.x, vocabPos.y - 100}, {0, 0}, 0, 80, 5, GREEN);
         for (int i = 0; i < template_ptr->vocabs.size(); i++) {
             Vocab vocab = template_ptr->vocabs[i];
             Color color = WHITE;
@@ -306,7 +322,11 @@ void TrainScene::Draw() {
             if (measuredText.x > panel_pos.x + panel_size.x - vocabPos.x - 30) {
                 while (measuredText.x > panel_pos.x + panel_size.x - vocabPos.x - 30) {
                     fontSize--;
-                    measuredText = MeasureTextEx(*AssetManager::GetFont(AssetManager::FONT::FONT_DEFAULT_REGULAR), (std::to_string(vocab.id + 1) + ": " + vocab.en + " = " + vocab.de).c_str(), fontSize, spacing);
+                    if (EN_to_DE) {
+                        measuredText = MeasureTextEx(*AssetManager::GetFont(AssetManager::FONT::FONT_DEFAULT_REGULAR), (std::to_string(vocab.id + 1) + ": " + vocab.en + " = " + vocab.de).c_str(), fontSize, spacing);
+                    } else {
+                        measuredText = MeasureTextEx(*AssetManager::GetFont(AssetManager::FONT::FONT_DEFAULT_REGULAR), (std::to_string(vocab.id + 1) + ": " + vocab.de + " = " + vocab.en).c_str(), fontSize, spacing);
+                    }
                 }
             }
 
@@ -317,6 +337,7 @@ void TrainScene::Draw() {
 
     button_list_vocabs->Draw();
 
+    button_switchLanguage->Draw();
     button_previous->Draw();
     button_first->Draw();
     button_random->Draw();

@@ -52,6 +52,7 @@ int main() {
     SceneManager::Init();
     AssetManager::LoadAssets();
 
+    /*
     std::thread nwThread(Templates::LoadTemplates);
     nwThread.detach();
 
@@ -70,7 +71,7 @@ int main() {
             loadingCircleRotation = 0;
         }
     }
-    UnloadTexture(loadingCircle);
+    UnloadTexture(loadingCircle);*/
 
     float delta;
 

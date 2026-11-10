@@ -20,11 +20,13 @@ class TemplatesMenu : public Scene {
     private:
         std::unique_ptr<Text> heading;
 
+        std::unique_ptr<Button> button_sync_templates;
         std::vector<std::unique_ptr<Button>> template_buttons;
         std::unique_ptr<Button> button_back;
 
         void UpdateUI(const float& delta);
         void DrawUI();
+        void SyncTemplates(const float& delta);
 };
 
 

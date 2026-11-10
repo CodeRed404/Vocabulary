@@ -27,6 +27,8 @@ class TrainScene : public Scene {
         Text tapText;
         uint8_t tapAlpha;
         bool tapUp;
+        bool EN_to_DE;
+        std::unique_ptr<Button> button_switchLanguage;
         // card
         bool currWordIsEN;
         Vector2 cardSize;

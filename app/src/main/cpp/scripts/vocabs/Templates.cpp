@@ -2,6 +2,8 @@
 // Created by codered404 on 05.11.26.
 //
 
+// It's the first time I use curl, so it can have some issues or some opportunities for improvement
+
 #include "raylib.h"
 #include "Templates.h"
 #include "../Manager.h"
@@ -14,7 +16,9 @@ int Templates::count;
 std::string Templates::globalCaCertPath = "";
 
 void Templates::LoadTemplates() {
-    //for (int i = 0; i < 99999999999; i++);
+    std::vector<Template> templates_backup = templates;
+    templates.clear();
+
     CURL* curl = curl_easy_init();
 
     if (curl) {
@@ -22,10 +26,6 @@ void Templates::LoadTemplates() {
 
         curl_easy_setopt(curl, CURLOPT_URL, "https://api.github.com/repos/CodeRed404/Vocabularies/contents/templates");
         curl_easy_setopt(curl, CURLOPT_USERAGENT, "CodeRed404_Agent");
-
-        // https://raw.githubusercontent.com/CodeRed404/Vocabularies/refs/heads/main/templates/template_03_11_2026.csv
-
-
 
         // tell curl, where to save the loaded data
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
@@ -41,13 +41,14 @@ void Templates::LoadTemplates() {
         curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
         curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
 
-        curl_easy_setopt(curl, CURLOPT_CAPATH, "/system/etc/security/cacerts/");
+        //curl_easy_setopt(curl, CURLOPT_CAPATH, "/system/etc/security/cacerts/");
 
         // execute requests
         CURLcode res = curl_easy_perform(curl);
 
         if (res != CURLE_OK) {
             // error while loading
+            templates = templates_backup;
             Manager::Warning("loading error 404", 3, RED);
         } else {
             // loaded successfully

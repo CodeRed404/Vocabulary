@@ -39,33 +39,14 @@ void Manager::UpdateWarning(const float &delta) {
             }
 
             if (warning_timer <= 0) {
-                if (warning_alpha > 0) {
-                    if (warning_alpha_timer <= 0) {
+                warning_alpha--;
+                for (int i = 0; i < 9; i++) {
+                    if (warning_alpha > 0) {
                         warning_alpha--;
-                        if (warning_alpha > 0) {
-                            warning_alpha--;
-                            if (warning_alpha > 0) {
-                                warning_alpha--;
-                                if (warning_alpha > 0) {
-                                    warning_alpha--;
-                                    if (warning_alpha > 0) {
-                                        warning_alpha--;
-                                        if (warning_alpha > 0) {
-                                            warning_alpha--;
-                                            if (warning_alpha > 0) {
-                                                warning_alpha--;
-                                                if (warning_alpha > 0) {
-                                                    warning_alpha--;
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-
-                        warning_alpha_timer = WARNING_ALPHA_TIME;
+                    } else {
+                        break;
                     }
+                    warning_alpha_timer = WARNING_ALPHA_TIME;
                 }
             }
         } else {
