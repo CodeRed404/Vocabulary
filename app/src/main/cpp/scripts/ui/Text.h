@@ -20,7 +20,10 @@ class Text {
         Vector2 GetSize();
         Vector2 GetSizeMango();
         Vector2 GetPosition();
+        std::string GetText();
+        float GetSpacing();
         float GetFontSize();
+        AssetManager::FONT GetFont();
         Color GetColor();
         void SetText(std::string text);
         void SetFont(AssetManager::FONT font);
@@ -28,6 +31,9 @@ class Text {
         void SetSpacing(float spacing);
         void SetColor(Color color);
         void SetPosition(Vector2 position);
+
+        static float GetFontSizeToFitWidth(const Font &font, std::string text, float fontSize, float maxWidth, float spacing);
+        static float GetFontSizeToFitHeight(const Font &font, std::string text, float fontSize, float maxHeight, float spacing);
     private:
         std::string text;
         AssetManager::FONT font;

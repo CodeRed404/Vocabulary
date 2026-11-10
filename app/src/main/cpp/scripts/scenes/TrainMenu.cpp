@@ -28,12 +28,12 @@ TrainMenu::TrainMenu() : Scene() {
     button_userVocabs_menu = std::make_unique<Button>();
     button_back = std::make_unique<Button>();
 
-    Vector2 button_size = {800, 150};
-    float button_y_distance = 50;
+    Vector2 button_size = Button::GetDefaultButtonSize();
+    float button_y_distance = 8;
 
     *button_templates_menu = Button(
             Text("Templates", AssetManager::FONT::FONT_BUTTON, 85, 3, WHITE),
-            Button::DefaultButtonColor,
+            Button::GetDefaultButtonColor(Button::DEFAULT_BUTTON_COLOR::DEFAULT_BUTTON_COLOR_GREEN),
             button_size,
             {0, 0.3f * (float)GetScreenHeight()}
     );
@@ -42,7 +42,7 @@ TrainMenu::TrainMenu() : Scene() {
 
     *button_userVocabs_menu = Button(
             Text("myVocabs", AssetManager::FONT::FONT_BUTTON, 85, 3, WHITE),
-            Button::DefaultButtonColor,
+            Button::GetDefaultButtonColor(Button::DEFAULT_BUTTON_COLOR::DEFAULT_BUTTON_COLOR_GREEN),
             button_size,
             {0, button_templates_menu->GetPosition().y + button_templates_menu->GetSize().y + button_y_distance}
     );
@@ -50,14 +50,7 @@ TrainMenu::TrainMenu() : Scene() {
 
     *button_back = Button(
             Text("Back", AssetManager::FONT::FONT_BUTTON, 85, 3, RED),
-            Button::ButtonColor{
-                Color{186, 31, 51, 255},
-                Color{205, 93, 103, 255},
-                Color{205, 93, 103, 255},
-                Color{65, 11, 19, 255},
-                Color{65, 11, 19, 255},
-                Color{65, 11, 19, 255}
-            },
+            Button::GetDefaultButtonColor(Button::DEFAULT_BUTTON_COLOR::DEFAULT_BUTTON_COLOR_RED),
             button_size,
             {0, (float)GetScreenHeight() - button_size.y - 100/*button_userVocabs_menu->GetPosition().y + button_userVocabs_menu->GetSize().y + button_y_distance*/}
     );

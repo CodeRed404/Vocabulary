@@ -19,6 +19,7 @@ add_library(${CMAKE_PROJECT_NAME} SHARED
         scripts/scenes/Scene.cpp
         scripts/scenes/Opening.cpp
         scripts/scenes/Menu.cpp
+        scripts/scenes/SettingsMenu.cpp
         scripts/scenes/TrainMenu.cpp
         scripts/scenes/TemplatesMenu.cpp
         scripts/scenes/VocabsMenu.cpp

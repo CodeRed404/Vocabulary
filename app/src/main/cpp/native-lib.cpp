@@ -89,13 +89,7 @@ int main() {
 
         BeginDrawing();
         ClearBackground(BLACK);
-        DrawRectangleGradientEx(
-                {0, 0, (float) GetScreenWidth(), (float) GetScreenHeight()},
-                Color{75, 108, 183, 255},
-                Color{24, 40, 72},
-                Color{24, 40, 72},
-                Color{75, 108, 183, 255}
-        );
+        Manager::DrawBackground();
         Manager::Draw();
         EndDrawing();
     }

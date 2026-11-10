@@ -3,6 +3,7 @@
 //
 
 #include "Menu.h"
+#include "../CodeRedColors.h"
 
 Menu::Menu() {
     want_to_quit = false;
@@ -14,22 +15,23 @@ Menu::Menu() {
     heading = std::make_unique<Text>(
         "Vocabulary",
         AssetManager::FONT::FONT_HEADER,
-        200,
+        150,
         10,
         Color{48, 25, 52, 255}
     );
     heading->SetPosition(Vector2{
         screenWidth / 2.0f - heading->GetSize().x / 2.0f,
-        200
+        100
     });
 
     developer_credit = std::make_unique<Text>(
         "developed by CodeRed404",
         AssetManager::FONT::FONT_HEADER,
-        65,
+        350,
         10,
         RED
     );
+    developer_credit->SetFontSize(Text::GetFontSizeToFitWidth(*AssetManager::GetFont(developer_credit->GetFont()), developer_credit->GetText(), developer_credit->GetFontSize(), screenWidth * 0.45f, developer_credit->GetSpacing()));
     developer_credit->SetPosition(Vector2{
         screenWidth / 2.0f - developer_credit->GetSize().x / 2.0f,
         screenHeight - developer_credit->GetSize().y * 2.0f
@@ -38,16 +40,33 @@ Menu::Menu() {
 
     // Buttons
 
+    button_settings = std::make_unique<Button>();
     button_train = std::make_unique<Button>();
     button_vocabs = std::make_unique<Button>();
     button_quit = std::make_unique<Button>();
 
-    float button_y_distance = 50;
+    Vector2 button_size = Button::GetDefaultButtonSize();
+    float button_y_distance = 8;
+
+    float button_settings_size = screenWidth * 0.1f;
+    if (button_settings_size > 150) {
+        button_settings_size = 150;
+    } else if (button_settings_size < 50) {
+        button_settings_size = 50;
+    }
+    std::string button_settings_text = "{}";
+    float button_settings_spacing = 7;
+    *button_settings = Button(
+            Text(button_settings_text, AssetManager::FONT::FONT_BUTTON, Text::GetFontSizeToFitWidth(*AssetManager::GetFont(AssetManager::FONT::FONT_BUTTON), button_settings_text, 30, button_settings_size * 0.8f, button_settings_spacing), button_settings_spacing, RED),
+            Button::GetDefaultButtonColor(Button::DEFAULT_BUTTON_COLOR::DEFAULT_BUTTON_COLOR_GRAY),
+            Vector2{button_settings_size, button_settings_size},
+            {screenWidth - button_settings_size - 50, 50}
+    );
 
     *button_train = Button(
         Text("Train", AssetManager::FONT::FONT_BUTTON, 85, 3, WHITE),
-        Button::DefaultButtonColor,
-        {800, 150},
+        Button::GetDefaultButtonColor(Button::DEFAULT_BUTTON_COLOR::DEFAULT_BUTTON_COLOR_GREEN),
+        button_size,
         {0, 0.3f * (float)GetScreenHeight()}
     );
     button_train->CenterX();
@@ -55,16 +74,16 @@ Menu::Menu() {
 
     *button_vocabs = Button(
             Text("Vocabs", AssetManager::FONT::FONT_BUTTON, 85, 3, WHITE),
-            Button::DefaultButtonColor,
-            {800, 150},
+            Button::GetDefaultButtonColor(Button::DEFAULT_BUTTON_COLOR::DEFAULT_BUTTON_COLOR_GREEN),
+            button_size,
             {0, button_train->GetPosition().y + button_train->GetSize().y + button_y_distance}
     );
     button_vocabs->CenterX();
 
     *button_quit = Button(
             Text("QUIT", AssetManager::FONT::FONT_BUTTON, 85, 3, RED),
-            Button::DefaultButtonColor,
-            {800, 150},
+            Button::GetDefaultButtonColor(Button::DEFAULT_BUTTON_COLOR::DEFAULT_BUTTON_COLOR_RED),
+            button_size,
             {0, button_vocabs->GetPosition().y + button_vocabs->GetSize().y + button_y_distance}
     );
     button_quit->CenterX();
@@ -104,11 +123,14 @@ void Menu::Update(const float &delta) {
 }
 
 void Menu::UpdateUI(const float &delta) {
+    button_settings->Update(delta);
     button_train->Update(delta);
     button_vocabs->Update(delta);
     button_quit->Update(delta);
 
-    if (button_train->IsPressed()) {
+    if (button_settings->IsPressed()) {
+        SceneManager::AddScene(new SettingsMenu());
+    } else if (button_train->IsPressed()) {
         SceneManager::AddScene(new TrainMenu());
     } else if (button_vocabs->IsPressed()) {
         SceneManager::AddScene(new VocabsMenu(VocabsMenu::VOCABS_MENU_MODE::VOCABS_MENU_EDIT));
@@ -134,6 +156,7 @@ void Menu::DrawUI() {
     heading->DrawMango();
     developer_credit->Draw();
 
+    button_settings->Draw();
     button_train->Draw();
     button_vocabs->Draw();
     button_quit->Draw();

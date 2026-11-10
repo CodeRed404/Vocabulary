@@ -8,6 +8,7 @@
 #include "Scene.h"
 #include "../Global.h"
 #include "SceneManager.h"
+#include "SettingsMenu.h"
 #include "TrainMenu.h"
 #include "VocabsMenu.h"
 #include "../ui/Text.h"
@@ -33,6 +34,7 @@ class Menu : public Scene {
         std::unique_ptr<Text> heading;
         std::unique_ptr<Text> developer_credit;
 
+        std::unique_ptr<Button> button_settings;
         std::unique_ptr<Button> button_train;
         std::unique_ptr<Button> button_vocabs;
         std::unique_ptr<Button> button_quit;

@@ -46,8 +46,20 @@ Vector2 Text::GetPosition() {
     return position;
 }
 
+std::string Text::GetText() {
+    return text;
+}
+
+float Text::GetSpacing() {
+    return spacing;
+}
+
 float Text::GetFontSize() {
     return fontSize;
+}
+
+AssetManager::FONT Text::GetFont() {
+    return font;
 }
 
 Color Text::GetColor() {
@@ -86,4 +98,35 @@ void Text::SetPosition(Vector2 position) {
 void Text::ValuesChanged() {
     size = MeasureTextEx(*AssetManager::GetFont(font), text.c_str(), fontSize, spacing);
     sizeMango = MeasureTextEx(*AssetManager::GetFont(AssetManager::FONT_MANGO_RG), text.c_str(), fontSize, spacing);
+}
+
+
+float Text::GetFontSizeToFitWidth(const Font &font, std::string text, float fontSize, float maxWidth, float spacing) {
+    if (maxWidth <= 0 || text.empty())
+        return fontSize;
+
+    Vector2 size = MeasureTextEx(font, text.c_str(), fontSize, spacing);
+
+    /*
+    if (size.x <= maxWidth)
+        return fontSize;
+    */
+
+    float scale = maxWidth / size.x;
+    return fontSize * scale;
+}
+
+float Text::GetFontSizeToFitHeight(const Font &font, std::string text, float fontSize, float maxHeight, float spacing) {
+    if (maxHeight <= 0 || text.empty())
+        return fontSize;
+
+    Vector2 size = MeasureTextEx(font, text.c_str(), fontSize, spacing);
+
+    /*
+    if (size.y <= maxHeight)
+        return fontSize;
+    */
+
+    float scale = maxHeight / size.y;
+    return fontSize * scale;
 }

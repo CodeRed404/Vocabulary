@@ -68,6 +68,16 @@ void Manager::UpdateWarning(const float &delta) {
     }
 }
 
+void Manager::DrawBackground() {
+    DrawRectangleGradientEx(
+            {0, 0, (float) GetScreenWidth(), (float) GetScreenHeight()},
+            Color{75, 108, 183, 255},
+            Color{24, 40, 72},
+            Color{24, 40, 72},
+            Color{75, 108, 183, 255}
+    );
+}
+
 void Manager::Draw() {
     SceneManager::Draw();
 
@@ -84,6 +94,9 @@ void Manager::DrawWarning() {
 
 
 void Manager::Warning(std::string warning, float time, Color color) {
+    float screenWidth = GetScreenWidth();
+    float screenHeight = GetScreenHeight();
+
     warning_appeard = false;
     warning_alpha = 0;
     warning_alpha_timer = WARNING_ALPHA_TIME;
@@ -95,15 +108,30 @@ void Manager::Warning(std::string warning, float time, Color color) {
     warning_text = warning;
     warning_timer = time;
 
-    warning_text_size = MeasureTextEx(*AssetManager::GetFont(AssetManager::FONT::FONT_DEFAULT_BOLD), warning_text.c_str(), warning_text_fontSize, warning_text_spacing);
-    warning_size = {warning_text_size.x + 200, warning_text_size.y + 45};
+    warning_size = {screenWidth * 0.8f, screenHeight * 0.1f};
+    //warning_text_size = MeasureTextEx(*AssetManager::GetFont(AssetManager::FONT::FONT_DEFAULT_BOLD), warning_text.c_str(), warning_text_fontSize, warning_text_spacing);
+    /*if (warning_text_size.x > warning_size.x - 200) {
+        while (warning_text_size.x > warning_size.x - 200) {
+            warning_text_fontSize -= 1;
+            warning_text_size = MeasureTextEx(*AssetManager::GetFont(AssetManager::FONT::FONT_DEFAULT_BOLD), warning_text.c_str(), warning_text_fontSize, warning_text_spacing);
+        }
+    }*/
+    warning_text_fontSize = Text::GetFontSizeToFitWidth(*AssetManager::GetFont(AssetManager::FONT::FONT_DEFAULT_BOLD), warning_text, warning_text_fontSize, warning_size.x - 200, warning_text_spacing);
+    /*if (warning_text_size.y > warning_size.y - 45) {
+        while (warning_text_size.y > warning_size.y - 45) {
+            warning_text_fontSize -= 1;
+            warning_text_size = MeasureTextEx(*AssetManager::GetFont(AssetManager::FONT::FONT_DEFAULT_BOLD), warning_text.c_str(), warning_text_fontSize, warning_text_spacing);
+        }
+    }*/
+    warning_text_fontSize = Text::GetFontSizeToFitWidth(*AssetManager::GetFont(AssetManager::FONT::FONT_DEFAULT_BOLD), warning_text, warning_text_fontSize, warning_size.y - 45, warning_text_spacing);
 
-    if (warning_size.x < 800) {
-        warning_size.x = 800;
+    /*
+    if (warning_size.x < warning_size.x) {
+        warning_size.x = warning_size.x;
     }
-    if (warning_size.y < 150) {
-        warning_size.y = 150;
-    }
+    if (warning_size.y < warning_size.y) {
+        warning_size.y = warning_size.y;
+    }*/
 
     warning_position = {(float)GetScreenWidth() / 2.0f - warning_size.x / 2.0f, -30};
 }

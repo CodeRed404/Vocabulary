@@ -19,6 +19,12 @@ class Button  {
             Color color_released_outline;
             Color color_pressed_outline;
         };
+        enum DEFAULT_BUTTON_COLOR {
+            DEFAULT_BUTTON_COLOR_RED,
+            DEFAULT_BUTTON_COLOR_GREEN,
+            DEFAULT_BUTTON_COLOR_GRAY,
+            DEFAULT_BUTTON_COLOR_EMPTY
+        };
     public:
         Button(Text text, ButtonColor buttonColor, Vector2 size, Vector2 position, float roundness, bool locked);
         Button(Text text, ButtonColor buttonColor, Vector2 size, Vector2 position, float roundness);
@@ -32,7 +38,8 @@ class Button  {
         void CenterX();
         void CenterY();
 
-        void Mute();
+        void ToggleOnlyOutline();
+        void ToggleMute();
 
         bool IsPressed();
         void SetSize(Vector2 size);
@@ -41,7 +48,8 @@ class Button  {
         Vector2 GetSize();
         Vector2 GetPosition();
 
-        static const ButtonColor DefaultButtonColor;
+        static Vector2 GetDefaultButtonSize();
+        static ButtonColor GetDefaultButtonColor(DEFAULT_BUTTON_COLOR defButtonColor);
     private:
         Text text;
         Vector2 size;
@@ -52,6 +60,7 @@ class Button  {
         bool locked;
 
         bool mute;
+        bool onlyOutline;
         bool mango;
 
         uint8_t alpha;

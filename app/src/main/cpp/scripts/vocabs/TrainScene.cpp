@@ -35,7 +35,7 @@ TrainScene::TrainScene(Template *template_ptr) {
             {cardRect.width, cardRect.height},
             {cardRect.x, cardRect.y}
     );
-    cardButton->Mute();
+    cardButton->ToggleMute();
 
     tapText = Text(
         "Tap",
@@ -164,14 +164,7 @@ TrainScene::TrainScene(Template *template_ptr) {
 
     *button_back = Button(
             Text("Back", AssetManager::FONT::FONT_BUTTON, 85, 3, RED),
-            Button::ButtonColor{
-                    Color{186, 31, 51, 255},
-                    Color{205, 93, 103, 255},
-                    Color{205, 93, 103, 255},
-                    Color{65, 11, 19, 255},
-                    Color{65, 11, 19, 255},
-                    Color{65, 11, 19, 255}
-            },
+            Button::GetDefaultButtonColor(Button::DEFAULT_BUTTON_COLOR::DEFAULT_BUTTON_COLOR_RED),
             {250, 100},
             {25, 50},
             0.75f

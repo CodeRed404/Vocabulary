@@ -31,14 +31,7 @@ VocabsMenu::VocabsMenu(VocabsMenu::VOCABS_MENU_MODE mode) {
 
     *button_back = Button(
             Text("Back", AssetManager::FONT::FONT_BUTTON, 85, 3, RED),
-            Button::ButtonColor{
-                    Color{186, 31, 51, 255},
-                    Color{205, 93, 103, 255},
-                    Color{205, 93, 103, 255},
-                    Color{65, 11, 19, 255},
-                    Color{65, 11, 19, 255},
-                    Color{65, 11, 19, 255}
-            },
+            Button::GetDefaultButtonColor(Button::DEFAULT_BUTTON_COLOR::DEFAULT_BUTTON_COLOR_RED),
             button_size,
             {0, (float)GetScreenHeight() - button_size.y - 100}
     );

@@ -4,15 +4,6 @@
 
 #include "Button.h"
 
-const Button::ButtonColor Button::DefaultButtonColor = Button::ButtonColor{
-        Color{53, 79, 82, 255},
-        Color{82, 121, 111, 255},
-        Color{82, 121, 111, 255},
-        Color{47, 62, 70, 255},
-        Color{47, 62, 70, 255},
-        Color{47, 62, 70, 255}
-};
-
 Button::Button(Text text, ButtonColor buttonColor, Vector2 size, Vector2 position, float roundness, bool locked) {
     Button::text = text;
     Button::buttonColor = buttonColor;
@@ -23,6 +14,7 @@ Button::Button(Text text, ButtonColor buttonColor, Vector2 size, Vector2 positio
     Button::locked = locked;
 
     Button::mute = false;
+    Button::onlyOutline = false;
     Button::mango = true;
 
     Button::alpha = 255;
@@ -90,7 +82,8 @@ void Button::Update(const float &delta) {
 }
 
 void Button::Draw() {
-    DrawRectangleRounded({position.x, position.y, size.x, size.y}, roundness, 0, Color{curr_color_fill.r, curr_color_fill.g, curr_color_fill.b, alpha});
+    if (!onlyOutline)
+        DrawRectangleRounded({position.x, position.y, size.x, size.y}, roundness, 0, Color{curr_color_fill.r, curr_color_fill.g, curr_color_fill.b, alpha});
     DrawRectangleRoundedLinesEx({position.x, position.y, size.x, size.y}, roundness, 0, 8.0f, Color{curr_color_outline.r, curr_color_outline.g, curr_color_outline.b, alpha});
 
     if (mango) {
@@ -111,8 +104,12 @@ void Button::CenterY() {
     ValuesChanged();
 }
 
-void Button::Mute() {
-    mute = true;
+void Button::ToggleOnlyOutline() {
+    onlyOutline = !onlyOutline;
+}
+
+void Button::ToggleMute() {
+    mute = !mute;
 }
 
 // Getters & Setters
@@ -149,7 +146,6 @@ Vector2 Button::GetPosition() {
 }
 
 
-
 void Button::ValuesChanged() {
     Button::text.SetPosition({
         Button::position.x + Button::size.x / 2.0f - (mango ? Button::text.GetSizeMango().x : Button::text.GetSize().x) / 2.0f,
@@ -167,4 +163,50 @@ void Button::SetReleasedColors() {
     text.SetColor(buttonColor.text_color_released);
     curr_color_fill = buttonColor.color_released_fill;
     curr_color_outline = buttonColor.color_released_outline;
+}
+
+
+Vector2 Button::GetDefaultButtonSize() {
+    return {(float)GetScreenWidth() * 0.75f, (float)GetScreenHeight() * 0.075f};
+}
+
+Button::ButtonColor Button::GetDefaultButtonColor(DEFAULT_BUTTON_COLOR defButtonColor) {
+    switch (defButtonColor) {
+        case DEFAULT_BUTTON_COLOR::DEFAULT_BUTTON_COLOR_RED:
+            return ButtonColor{
+                    Color{55, 17, 32, 255},
+                    Color{99, 30, 58, 255},
+                    Color{99, 30, 58, 255},
+                    Color{44, 13, 26, 255},
+                    Color{44, 13, 26, 255},
+                    Color{44, 13, 26, 255}
+            };
+        case DEFAULT_BUTTON_COLOR::DEFAULT_BUTTON_COLOR_GREEN:
+            return ButtonColor{
+                    Color{53, 79, 82, 255},
+                    Color{82, 121, 111, 255},
+                    Color{82, 121, 111, 255},
+                    Color{47, 62, 70, 255},
+                    Color{47, 62, 70, 255},
+                    Color{47, 62, 70, 255}
+            };
+        case DEFAULT_BUTTON_COLOR::DEFAULT_BUTTON_COLOR_GRAY:
+            return ButtonColor{
+                    Color{27, 31, 44, 255},
+                    Color{60, 66, 91, 255},
+                    Color{60, 66, 91, 255},
+                    Color{22, 26, 37, 255},
+                    Color{22, 26, 37, 255},
+                    Color{22, 26, 37, 255}
+            };
+        case DEFAULT_BUTTON_COLOR::DEFAULT_BUTTON_COLOR_EMPTY:
+            return ButtonColor{
+                Color{0, 0, 0, 0},
+                Color{0, 0, 0, 0},
+                Color{0, 0, 0, 0},
+                Color{0, 0, 0, 0},
+                Color{0, 0, 0, 0},
+                Color{0, 0, 0, 0}
+            };
+    }
 }

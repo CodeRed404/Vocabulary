@@ -14,6 +14,7 @@
 class Manager {
     public:
         static void Update(const float& delta);
+        static void DrawBackground();
         static void Draw();
 
         static void Warning(std::string warning, float time, Color color);
