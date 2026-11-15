@@ -51,8 +51,10 @@ int main() {
 
     SceneManager::Init();
     AssetManager::LoadAssets();
+    Templates::LoadTemplatesLocal();
 
     /*
+     * IGNORE
     std::thread nwThread(Templates::LoadTemplates);
     nwThread.detach();
 

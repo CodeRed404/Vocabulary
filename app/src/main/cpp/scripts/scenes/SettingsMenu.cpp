@@ -8,7 +8,7 @@
 #include "SettingsMenu.h"
 #include "../vocabs/Templates.h"
 #include "../CodeRedColors.h"
-#include "thread"
+#include <thread>
 
 SettingsMenu::SettingsMenu() {
     float screenWidth = (float)GetScreenWidth();
@@ -92,7 +92,7 @@ void SettingsMenu::DrawUI() {
 
 void SettingsMenu::SyncTemplates(const float &delta) {
     // Load data
-    std::thread nwThread(Templates::LoadTemplates);
+    std::thread nwThread(Templates::LoadTemplatesOnline);
     nwThread.detach();
 
     Global::isLoading = true;

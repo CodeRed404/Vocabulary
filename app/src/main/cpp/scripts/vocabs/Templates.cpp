@@ -8,14 +8,15 @@
 #include "Templates.h"
 #include "../Manager.h"
 #include "curl/curl.h"
-#include "sstream"
+#include <sstream>
+#include <fstream>
 #include "nlohmann/json.hpp"
 
 std::vector<Template> Templates::templates;
 int Templates::count;
 std::string Templates::globalCaCertPath = "";
 
-void Templates::LoadTemplates() {
+void Templates::LoadTemplatesOnline() {
     std::vector<Template> templates_backup = templates;
     templates.clear();
 
@@ -53,6 +54,8 @@ void Templates::LoadTemplates() {
         } else {
             // loaded successfully
 
+            templates.clear();
+
             nlohmann::json j = nlohmann::json::parse(tempBuffer);
 
             int tlID = 0;
@@ -71,11 +74,11 @@ void Templates::LoadTemplates() {
                     Manager::Warning("tl error, maybe restart", 5, ORANGE);
                     tlID--;
                 }
-
-                count++;
             }
+            count = templates.size();
 
             Manager::Warning("Data loaded", 2, GREEN);
+            SaveTemplatesLocal();
         }
         curl_easy_cleanup(curl);
     }
@@ -167,4 +170,142 @@ int Templates::Count() {
 
 std::vector<Template> *Templates::GetTemplatesAddr() {
     return &templates;
+}
+
+
+
+void Templates::SaveTemplatesLocal() {
+    std::ofstream o_stream;
+    o_stream.open("templates.txt");
+
+    if (!o_stream.is_open()) {
+        Manager::Warning("Saving failed", 3, RED);
+        return;
+    }
+
+    o_stream.clear();
+
+    //std::vector<Template> templates_l = *Templates::GetTemplatesAddr();
+    std::vector<Template> templates_l = templates;
+
+    std::string o_tlsData = "";
+    for (int i = 0; i < templates_l.size(); i++) {
+        Template tl = templates_l[i];
+
+        // line 0: tl id; line 1: tl name
+        o_tlsData += std::to_string(tl.id) + "\n";
+        o_tlsData += tl.name + "\n";
+
+        for (Vocab v : tl.vocabs) {
+            o_tlsData += std::to_string(v.id) + "\n";
+            o_tlsData += v.en + "\n";
+            o_tlsData += v.de + "\n";
+        }
+
+        o_tlsData += ">\n";
+
+
+
+
+        /*
+         * IGNORE
+        o_tlsData += "{" + tl.name + "|" + std::to_string(tl.vocabs.size()) + "|";
+        for (Vocab v : tl.vocabs) {
+            o_tlsData += "[";
+            o_tlsData += std::to_string(v.id) + ";" + v.en + ";" + v.de;
+            o_tlsData += "]";
+        }
+         */
+    }
+    o_stream << o_tlsData;
+    o_stream.close();
+}
+
+void Templates::LoadTemplatesLocal() {
+    std::ifstream i_stream;
+    i_stream.open("templates.txt");
+
+    if (!i_stream.is_open()) {
+        Manager::Warning("Loading saves failed", 3, RED);
+        return;
+    }
+
+    std::vector<Template> templates_l;
+    Template tl;
+    Vocab v = Vocab();
+    std::string line;
+    int iotll = 0; // index of template line
+
+    while(std::getline(i_stream, line)) {
+        switch (iotll) {
+            case 0:
+                tl = Template();
+                tl.id = std::stoi(line);
+                break;
+            case 1:
+                tl.name = line;
+                break;
+            default:
+                if (line == ">") {
+                    templates_l.push_back(tl);
+                    iotll = 0;
+                    continue;
+                }
+                switch ((iotll + 1) % 3) {
+                    case 0:
+                        v.id = std::stoi(line);
+                        break;
+                    case 1:
+                        v.en = line;
+                        break;
+                    case 2:
+                        v.de = line;
+                        tl.vocabs.push_back(v);
+                        v = Vocab();
+                        break;
+                }
+                break;
+        }
+
+        iotll++;
+    }
+
+    templates = templates_l;
+    count = templates.size();
+
+    i_stream.close();
+
+
+
+
+
+    /*
+     * IGNORE
+    std::string i_tlsData = "";
+    std::string tl_data = "";
+    Template tl;
+    int tmp_index = 0;
+
+    i_stream >> i_tlsData;
+
+    while(!i_tlsData.empty()) {
+        int begin_tl = i_tlsData.find_first_of('{');
+        int end_tl = i_tlsData.find_first_of(']');
+        tl_data = i_tlsData.substr(begin_tl, end_tl);
+
+        int vocabs_count = tl_data.substr(tl_data.find_)
+
+        tmp_index = tl_data.find_first_of('[');
+        tl.name = (0, tmp_index);
+        tl_data = tl_data.substr(tmp_index, end_tl);
+
+        tmp_index = tl_data.find_first_of(';');
+        tl_data = tl_data.substr(tmp_index, end_tl);
+        while ()
+
+        i_tlsData = i_tlsData.substr(end_tl, i_tlsData.back());
+    }
+
+    i_stream.close();
+     */
 }

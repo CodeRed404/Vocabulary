@@ -6,10 +6,11 @@
 #define VOCABULARY_BUTTON_H
 
 #include "raylib.h"
+#include "UI.h"
 #include "../Global.h"
 #include "Text.h"
 
-class Button  {
+class Button : public UI {
     public:
         struct ButtonColor {
             Color text_color_released;
@@ -32,8 +33,8 @@ class Button  {
         Button(Text text, ButtonColor buttonColor);
         Button();
 
-        void Update(const float& delta);
-        void Draw();
+        void Update(const float& delta) override;
+        void Draw() override;
 
         void CenterX();
         void CenterY();

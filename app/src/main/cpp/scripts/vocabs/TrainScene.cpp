@@ -77,7 +77,7 @@ TrainScene::TrainScene(Template *template_ptr) {
     button_random = std::make_unique<Button>();
     button_previous = std::make_unique<Button>();
     button_next = std::make_unique<Button>();
-    button_first = std::make_unique<Button>();
+    //button_first = std::make_unique<Button>();
 
     /*
     // contrast
@@ -98,6 +98,7 @@ TrainScene::TrainScene(Template *template_ptr) {
             Color{24, 39, 49, 255}
     };
 
+    /*
     Vector2 nextButtonSize = {(float)screenWidth - 200, 200};
     Vector2 nextButtonPos = {screenWidth / 2.0f - nextButtonSize.x / 2.0f, screenHeight - nextButtonSize.y - 30.0f};
     float buttonHalfAndMore = 10.0f;
@@ -137,6 +138,60 @@ TrainScene::TrainScene(Template *template_ptr) {
             {nextButtonSize.x / 2.0f - buttonHalfAndMore, nextButtonSize.y},
             {button_random->GetPosition().x, button_random->GetPosition().y - nextButtonSize.y - buttonYDistance},
             0.2f
+    );*/
+
+    float button_roundness = 0.0f;
+
+    float nextButtonWidth = screenWidth / 5.0f;
+    //Vector2 nextButtonPos = {screenWidth / 2.0f - nextButtonSize.x / 2.0f, screenHeight - nextButtonSize.y - 30.0f};
+    float buttonHalfAndMore = 10.0f;
+    float buttonGroundDistance = 30.0;
+    float buttonYDistance = 20.0f;
+    *button_random = Button(
+            Text("%", AssetManager::FONT::FONT_DEFAULT_BOLD, 125, 3, RED),
+            confButtonColor,
+            {nextButtonWidth, nextButtonWidth},
+            {screenWidth / 2.0f - nextButtonWidth / 2.0f, screenHeight - nextButtonWidth},
+            button_roundness
+    );
+    *button_previous = Button(
+            Text("<-", AssetManager::FONT::FONT_DEFAULT_BOLD, 125, 3, RED),
+            confButtonColor,
+            {nextButtonWidth, nextButtonWidth},
+            {button_random->GetPosition().x - nextButtonWidth, button_random->GetPosition().y},
+            button_roundness
+    );
+    *button_next = Button(
+            Text("->", AssetManager::FONT::FONT_DEFAULT_BOLD, 125, 3, RED),
+            confButtonColor,
+            {nextButtonWidth, nextButtonWidth},
+            {button_random->GetPosition().x + nextButtonWidth, button_random->GetPosition().y},
+            button_roundness
+    );
+    /*
+    *button_first = Button(
+            Text("1.", AssetManager::FONT::FONT_DEFAULT_BOLD, 125, 3, RED),
+            confButtonColor,
+            {nextButtonWidth, nextButtonWidth},
+            {button_random->GetPosition().x - nextButtonWidth, button_random->GetPosition().y},
+            0.2f
+    );
+     */
+    std::string switchLanguage_text = "Switch Language";
+    Vector2 button_switchLanguageText_size = MeasureTextEx(*AssetManager::GetFont(AssetManager::FONT::FONT_DEFAULT_BOLD), switchLanguage_text.c_str(), 125, 3);
+    *button_switchLanguage = Button(
+            Text(switchLanguage_text, AssetManager::FONT::FONT_DEFAULT_BOLD, 125, 3, RED),
+            Button::ButtonColor {
+                Color{142, 158, 174, 50},
+                Color{142, 158, 174, 50},
+                Color{54, 69, 79, 50},
+                Color{24, 39, 49, 50},
+                Color{24, 39, 49, 50},
+                Color{24, 39, 49, 50}
+            },
+            button_switchLanguageText_size,
+            {cardRect.x + cardRect.width / 2.0f - button_switchLanguageText_size.x / 2.0f, cardRect.y + cardRect.height + 30},
+            button_roundness
     );
 
 
@@ -157,23 +212,29 @@ TrainScene::TrainScene(Template *template_ptr) {
                     DARKBLUE,
                     DARKBLUE
             },
-            {100, 100},
-            {(float)GetScreenWidth() - 125, 50},
-            0.5f
+            {nextButtonWidth, nextButtonWidth},
+            {button_random->GetPosition().x + 2 * nextButtonWidth, button_random->GetPosition().y},
+            button_roundness
     );
 
     *button_back = Button(
-            Text("Back", AssetManager::FONT::FONT_BUTTON, 85, 3, RED),
+            Text("^", AssetManager::FONT::FONT_BUTTON, 85, 3, RED),
             Button::GetDefaultButtonColor(Button::DEFAULT_BUTTON_COLOR::DEFAULT_BUTTON_COLOR_RED),
-            {250, 100},
-            {25, 50},
-            0.75f
+            {nextButtonWidth, nextButtonWidth},
+            {button_random->GetPosition().x - 2 * nextButtonWidth, button_random->GetPosition().y},
+            button_roundness
     );
 }
 
 
 void TrainScene::Update(const float &delta) {
+    button_back->Update(delta);
     button_list_vocabs->Update(delta);
+
+    if (button_back->IsPressed()) {
+        SceneManager::PopScene();
+        return;
+    }
 
     if (button_list_vocabs->IsPressed()) {
         help_info = !help_info;
@@ -181,14 +242,7 @@ void TrainScene::Update(const float &delta) {
     }
 
     if (!help_info) {
-        button_back->Update(delta);
-
-        if (!button_list_vocabs->IsPressed()) {
-            if (button_back->IsPressed()) {
-                SceneManager::PopScene();
-                return;
-            }
-        }
+        button_switchLanguage->Update(delta);
     }
 
     UpdateCard(delta);
@@ -197,9 +251,8 @@ void TrainScene::Update(const float &delta) {
 void TrainScene::UpdateCard(const float &delta) {
     cardButton->Update(delta);
     // --
-    button_switchLanguage->Update(delta);
     button_previous->Update(delta);
-    button_first->Update(delta);
+    //button_first->Update(delta);
     button_random->Update(delta);
     button_next->Update(delta);
 
@@ -227,11 +280,11 @@ void TrainScene::UpdateCard(const float &delta) {
             currVocab = template_ptr->vocabs[currVocab.id + 1 < template_ptr->vocabs.size() ? currVocab.id + 1 : 0];
             currWordIsEN = true;
             any = true;
-        } else if (button_first->IsPressed()) {
+        } /*else if (button_first->IsPressed()) {
             currVocab = template_ptr->vocabs[0];
             currWordIsEN = true;
             any = true;
-        }
+        }*/
 
         if (any) {
             currVocabText.SetFontSize(defaultVocabFontSize);
@@ -284,14 +337,14 @@ void TrainScene::UpdateCard(const float &delta) {
 
 void TrainScene::Draw() {
     if (!help_info) {
-        button_back->Draw();
-
         // train card
         DrawRectangleRounded(cardRect, 0.075f, 0, Color{50, 50, 50, 100});
         DrawRectangleRoundedLinesEx(cardRect, 0.075f, 0, 8.0f, Color{255, 255, 255, 100});
         tapText.Draw();
         currVocabIDText.Draw();
         currVocabText.Draw();
+
+        button_switchLanguage->Draw();
     } else {
         Vector2 panel_pos = {75.0f, 150.0f};
         Vector2 panel_size = {(float)GetScreenWidth() - panel_pos.x * 2, (float)GetScreenHeight() * (2.0f/3.0f)/*(float)GetScreenHeight() - panel_pos.y * 2*/};
@@ -328,11 +381,11 @@ void TrainScene::Draw() {
         }
     }
 
+    button_back->Draw();
     button_list_vocabs->Draw();
 
-    button_switchLanguage->Draw();
     button_previous->Draw();
-    button_first->Draw();
+    //button_first->Draw();
     button_random->Draw();
     button_next->Draw();
 }

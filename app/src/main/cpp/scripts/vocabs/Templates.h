@@ -13,7 +13,10 @@ class Templates {
     public:
         static std::string globalCaCertPath;
 
-        static void LoadTemplates();
+        static void LoadTemplatesOnline();
+        static void SaveTemplatesLocal();
+        static void LoadTemplatesLocal();
+
         static int Count();
         static std::vector<Template> *GetTemplatesAddr();
     private:

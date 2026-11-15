@@ -6,15 +6,17 @@
 #define VOCABULARY_TEXT_H
 
 #include "raylib.h"
+#include "UI.h"
 #include "../AssetManager.h"
 #include "string"
 
-class Text {
+class Text : public UI {
     public:
         Text(std::string text, AssetManager::FONT font, float fontSize, float spacing, Color color);
         Text();
 
-        void Draw();
+        void Update(const float& delta) override {}
+        void Draw() override;
         void DrawMango();
 
         Vector2 GetSize();

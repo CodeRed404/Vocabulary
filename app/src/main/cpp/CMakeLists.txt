@@ -29,6 +29,7 @@ add_library(${CMAKE_PROJECT_NAME} SHARED
         #ui
         scripts/ui/Text.cpp
         scripts/ui/Button.cpp
+        scripts/ui/Slider.cpp
 )
 
 # WICHTIG: Zwingt den Linker, das Android-Einstiegssymbol von Raylib nicht zu verwerfen

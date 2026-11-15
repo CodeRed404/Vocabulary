@@ -3,6 +3,7 @@
 //
 
 #include "TrainMenu.h"
+#include "../Manager.h"
 
 TrainMenu::TrainMenu() : Scene() {
     // Texts
@@ -70,7 +71,9 @@ void TrainMenu::UpdateUI(const float &delta) {
     if (button_templates_menu->IsPressed()) {
         SceneManager::AddScene(new TemplatesMenu());
     } else if (button_userVocabs_menu->IsPressed()) {
-        SceneManager::AddScene(new VocabsMenu(VocabsMenu::VOCABS_MENU_MODE::VOCABS_MENU_TRAIN));
+        // coming soon
+        Warning_COMING_SOON();
+        //SceneManager::AddScene(new VocabsMenu(VocabsMenu::VOCABS_MENU_MODE::VOCABS_MENU_TRAIN));
     } else if (button_back->IsPressed()) {
         SceneManager::PopScene();
         return;

@@ -5,6 +5,8 @@
 #ifndef VOCABULARY_MENU_H
 #define VOCABULARY_MENU_H
 
+#define ownVocabs false
+
 #include "Scene.h"
 #include "../Global.h"
 #include "SceneManager.h"
@@ -36,7 +38,9 @@ class Menu : public Scene {
 
         std::unique_ptr<Button> button_settings;
         std::unique_ptr<Button> button_train;
+#if ownVocabs
         std::unique_ptr<Button> button_vocabs;
+#endif
         std::unique_ptr<Button> button_quit;
 
         void UpdateUI(const float& delta);

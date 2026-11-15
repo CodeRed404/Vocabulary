@@ -5,6 +5,8 @@
 #ifndef VOCABULARY_MANAGER_H
 #define VOCABULARY_MANAGER_H
 
+#define Warning_COMING_SOON() Manager::Warning("Coming soon... (maybe)", 3, BROWN)
+
 #include "raylib.h"
 #include "AssetManager.h"
 #include "scenes/SceneManager.h"
@@ -32,7 +34,7 @@ class Manager {
         static Vector2 warning_text_size;
         static Vector2 warning_size;
         static Vector2 warning_position;
-        static bool warning_appeard;
+        static bool warning_appeared;
         static uint8_t warning_alpha;
         static float warning_alpha_timer;
         static constexpr float WARNING_ALPHA_TIME = 2.0f / 255;

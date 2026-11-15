@@ -194,7 +194,7 @@ Button::ButtonColor Button::GetDefaultButtonColor(DEFAULT_BUTTON_COLOR defButton
             return ButtonColor{
                     Color{27, 31, 44, 255},
                     Color{60, 66, 91, 255},
-                    Color{60, 66, 91, 255},
+                    Color{60 + 20, 66 + 20, 91 + 20, 255},
                     Color{22, 26, 37, 255},
                     Color{22, 26, 37, 255},
                     Color{22, 26, 37, 255}

@@ -38,7 +38,7 @@ class TrainScene : public Scene {
         std::unique_ptr<Button> button_random;
         std::unique_ptr<Button> button_previous;
         std::unique_ptr<Button> button_next;
-        std::unique_ptr<Button> button_first;
+        //std::unique_ptr<Button> button_first;
 
         std::unique_ptr<Button> button_list_vocabs;
         std::unique_ptr<Button> button_back;

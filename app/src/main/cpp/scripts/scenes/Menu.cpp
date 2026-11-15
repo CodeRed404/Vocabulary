@@ -3,6 +3,7 @@
 //
 
 #include "Menu.h"
+#include "../Manager.h"
 #include "../CodeRedColors.h"
 
 Menu::Menu() {
@@ -42,12 +43,46 @@ Menu::Menu() {
 
     button_settings = std::make_unique<Button>();
     button_train = std::make_unique<Button>();
+#if ownVocabs
     button_vocabs = std::make_unique<Button>();
+#endif
     button_quit = std::make_unique<Button>();
 
     Vector2 button_size = Button::GetDefaultButtonSize();
     float button_y_distance = 8;
+    Vector2 next_button_pos = {0, 0.3f * (float)GetScreenHeight()};
 
+    *button_train = Button(
+        Text("Train", AssetManager::FONT::FONT_BUTTON, 85, 3, WHITE),
+        Button::GetDefaultButtonColor(Button::DEFAULT_BUTTON_COLOR::DEFAULT_BUTTON_COLOR_GREEN),
+        button_size,
+        next_button_pos
+    );
+    button_train->CenterX();
+    button_train->CenterY();
+    next_button_pos.y =  button_train->GetPosition().y + button_train->GetSize().y + button_y_distance;
+
+#if ownVocabs
+    *button_vocabs = Button(
+            Text("Vocabs", AssetManager::FONT::FONT_BUTTON, 85, 3, WHITE),
+            Button::GetDefaultButtonColor(Button::DEFAULT_BUTTON_COLOR::DEFAULT_BUTTON_COLOR_GREEN),
+            button_size,
+            next_button_pos
+    );
+    button_vocabs->CenterX();
+    next_button_pos.y = button_vocabs->GetPosition().y + button_vocabs->GetSize().y + button_y_distance;
+#endif
+
+    *button_quit = Button(
+            Text("QUIT", AssetManager::FONT::FONT_BUTTON, 85, 3, RED),
+            Button::GetDefaultButtonColor(Button::DEFAULT_BUTTON_COLOR::DEFAULT_BUTTON_COLOR_RED),
+            button_size,
+            next_button_pos
+    );
+    button_quit->CenterX();
+    //next_button_pos.y = button_quit->GetPosition().y + button_quit->GetSize().y + button_y_distance;
+
+    // Settings button
     float button_settings_size = screenWidth * 0.1f;
     if (button_settings_size > 150) {
         button_settings_size = 150;
@@ -62,31 +97,6 @@ Menu::Menu() {
             Vector2{button_settings_size, button_settings_size},
             {screenWidth - button_settings_size - 50, 50}
     );
-
-    *button_train = Button(
-        Text("Train", AssetManager::FONT::FONT_BUTTON, 85, 3, WHITE),
-        Button::GetDefaultButtonColor(Button::DEFAULT_BUTTON_COLOR::DEFAULT_BUTTON_COLOR_GREEN),
-        button_size,
-        {0, 0.3f * (float)GetScreenHeight()}
-    );
-    button_train->CenterX();
-    button_train->CenterY();
-
-    *button_vocabs = Button(
-            Text("Vocabs", AssetManager::FONT::FONT_BUTTON, 85, 3, WHITE),
-            Button::GetDefaultButtonColor(Button::DEFAULT_BUTTON_COLOR::DEFAULT_BUTTON_COLOR_GREEN),
-            button_size,
-            {0, button_train->GetPosition().y + button_train->GetSize().y + button_y_distance}
-    );
-    button_vocabs->CenterX();
-
-    *button_quit = Button(
-            Text("QUIT", AssetManager::FONT::FONT_BUTTON, 85, 3, RED),
-            Button::GetDefaultButtonColor(Button::DEFAULT_BUTTON_COLOR::DEFAULT_BUTTON_COLOR_RED),
-            button_size,
-            {0, button_vocabs->GetPosition().y + button_vocabs->GetSize().y + button_y_distance}
-    );
-    button_quit->CenterX();
 
     // robot
     robot_is_texture_0 = true;
@@ -125,16 +135,29 @@ void Menu::Update(const float &delta) {
 void Menu::UpdateUI(const float &delta) {
     button_settings->Update(delta);
     button_train->Update(delta);
+#if ownVocabs
     button_vocabs->Update(delta);
+#endif
     button_quit->Update(delta);
 
     if (button_settings->IsPressed()) {
         SceneManager::AddScene(new SettingsMenu());
     } else if (button_train->IsPressed()) {
+#if ownVocabs
         SceneManager::AddScene(new TrainMenu());
-    } else if (button_vocabs->IsPressed()) {
-        SceneManager::AddScene(new VocabsMenu(VocabsMenu::VOCABS_MENU_MODE::VOCABS_MENU_EDIT));
-    } else if (button_quit->IsPressed()) {
+#endif
+#if !ownVocabs
+        SceneManager::AddScene(new TemplatesMenu());
+#endif
+    }
+#if ownVocabs
+    else if (button_vocabs->IsPressed()) {
+        // coming soon
+        Warning_COMING_SOON();
+        //SceneManager::AddScene(new VocabsMenu(VocabsMenu::VOCABS_MENU_MODE::VOCABS_MENU_EDIT));
+    }
+#endif
+    else if (button_quit->IsPressed()) {
         want_to_quit = true;
     }
 
@@ -158,6 +181,8 @@ void Menu::DrawUI() {
 
     button_settings->Draw();
     button_train->Draw();
+#if ownVocabs
     button_vocabs->Draw();
+#endif
     button_quit->Draw();
 }
